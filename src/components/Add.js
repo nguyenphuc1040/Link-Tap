@@ -26,7 +26,7 @@ import {Icon} from 'react-native-elements';
 
 const {width, height} = Dimensions.get('screen');
 const ColorTheme = '#b73636';
-const ColorTheme1 = "#de2323"
+const ColorTheme1 = "#de2322"
 var IconItemMail = [
 
   {
