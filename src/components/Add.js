@@ -25,8 +25,8 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
 
 const {width, height} = Dimensions.get('screen');
-const ColorTheme = '#b73636';
-const ColorTheme1 = "#de2323"
+const ColorTheme = 'rgb(184, 55, 55)';
+const ColorTheme1 = "rgb(184, 55, 55)"
 var IconItemMail = [
 
   {
@@ -150,14 +150,30 @@ const Add = () => {
   const [typeTextInput, settypetextInput] = useState('Enter the link')
   return (
     <SafeAreaView>
+      <View
+        style={{
+          height: 65  ,
+          backgroundColor: "white",
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+        }}
+      >
       <ImageBackground 
           source = {require('../img/btnbackground.png')}
           style = {styles.header}
       >
-          <Text style={{textAlign: 'center', fontSize: 20, color:"white", fontWeight:"bold",marginTop:25}}>
+          <Text style={{textAlign: 'right', fontSize: 20, color:"white", fontWeight:"bold",marginTop:27, marginRight:25,}}>
               ADD KEY NAME
           </Text>
       </ImageBackground>
+      </View>
+      
 
       <ScrollView style={styles.container}>
         <View style={{height: 30}}></View>
@@ -319,7 +335,7 @@ const Add = () => {
               }}
               ViewComponent={LinearGradient} // Don't forget this!
               linearGradientProps={{
-                colors: ['#db1818', '#18c7de'],
+                colors: [ColorTheme, ColorTheme],
                 start: {x: 0, y: 1},
                 end: {x: 1, y: 0.5},
               }}

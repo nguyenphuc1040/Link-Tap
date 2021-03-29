@@ -9,7 +9,7 @@ import {
   Button,
   ImageBackground,
   Dimensions,
-  TouchableWithoutFeedback,
+  TouchableNativeFeedbackBase,
   TouchableNativeFeedback,
   TouchableOpacityBase,
   StatusBar,
@@ -19,6 +19,7 @@ import {
   Touchable,
   TouchableOpacity,
   Vibration,
+  KeyboardAvoidingView,
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {StackActions} from '@react-navigation/routers';
@@ -28,15 +29,12 @@ import {Icon} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import QrCode from 'react-native-qrcode-svg';
 import QRCode from 'react-native-qrcode-svg';
-import {color} from 'react-native-reanimated';
+import {color, set} from 'react-native-reanimated';
 
 
 const {width, height} = Dimensions.get('screen');
-const ColorTheme = '#b73636';
-const CreateAlert = content =>
-  Alert.alert('Notification', `${content}`, [{text: 'OK', onPress: () => {}}], {
-    cancelable: true,
-  });
+const ColorTheme = 'rgb(184, 55, 55)'
+const ColorAlert = 'rgb(184, 55, 55)'
 const InfoBtn = ({
   name,
   name_icon,
@@ -73,11 +71,9 @@ const InfoBtn = ({
     }}>
     <View
       style={styles.InfoBtnContainer}>
-      <ImageBackground
-        imageStyle = {{borderBottomRightRadius: 30,borderRadius:3}}
-        source = {require('../img/btnbackground.png')}
-        style={styles.InfoBtnInterface}>
-        <View style={styles.IconContainer}>
+
+        <View
+          style={styles.IconContainer}>
           <Icon
             name={name_icon}
             size={size}
@@ -85,7 +81,7 @@ const InfoBtn = ({
             color={color_icon}></Icon>
         </View>
         <Text style={styles.InfoBtnTexts}>{name}</Text>
-      </ImageBackground>
+
       
     </View>
   </TouchableNativeFeedback>
@@ -141,8 +137,10 @@ const Home = () => {
   const [alrtcontent,setcontent] = useState('');
   const [nameDelete,setnameDelete] = useState('');
   const [indexnameDelete,setindexnamedelete] = useState();
+
   useEffect(() => {
     getAllData();
+ 
   }, []);
   return (
     <SafeAreaView style={styles.container}>
@@ -160,10 +158,10 @@ const Home = () => {
           <View style={styles.modalView}>
             <QRCode 
               value={link} 
-              color= "#158a96"
+              color= {ColorTheme}
               size={width / 2.5}
+              translucent = {true}
          
-              backgroundColor = "white"
             ></QRCode>
           </View>
           <View style ={{marginTop:20}}></View>
@@ -247,7 +245,7 @@ const Home = () => {
       </Modal>
       <View
         style={{
-          height: 70,
+          height: 65  ,
           backgroundColor: "white",
           shadowColor: '#000',
           shadowOffset: {
@@ -278,30 +276,19 @@ const Home = () => {
               color: '#e5e5e5',
               fontSize: 20,
               fontWeight: 'bold',
-              textAlign: 'left',
+              textAlign: 'right',
               paddingBottom: 10,
-              marginTop: 35,
-              marginLeft: 23,
+              marginTop: 40,
+              marginRight: 23,
             }}>
             LINK TAP
           </Text>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              navigation.push('Add', {saveArticle: saveArticle, setcontent: setcontent, setOK: setOK, alrtOK: alrtOK});
-            }}>
-            <View style={styles.AddBtn}>
-              <Icon
-                name="plus-circle"
-                size={35}
-                type="font-awesome"
-                color="#ffffff"
-                style={styles.IconAdd}></Icon>
-            </View>
-          </TouchableWithoutFeedback>
+
         </ImageBackground>
       </View>
-
-      <ScrollView style={{paddingTop: 20}}>
+          
+      <ScrollView style={{marginTop: 20}}>
+        <View style={{height:1}}></View>
         {arr.map((item, index) => (
           <InfoBtn
             name={item[0]}
@@ -325,11 +312,39 @@ const Home = () => {
             key={index}></InfoBtn>
         ))}
         { arr.length===0 &&
-          <Text style={{fontSize:20, fontWeight: 'bold', color:'#7a7a7a',textAlign:'center',marginTop:height/3}}>
+          <Text style={{fontSize:20, fontWeight: 'bold', color:'#7a7a7a',textAlign:'center',marginTop:height/2.7}}>
           OPPS ! NO THING HERE
         </Text>}
-        <View style={{height: 100}}></View>
+        <View style={{height: 10}}></View>
+        
       </ScrollView>
+
+        <View style={styles.bottomcontainer}>
+          <TouchableOpacity
+                style={styles.AddBtn}
+                activeOpacity = {0.6}
+                onPress={() => {
+                  navigation.navigate('Add', {saveArticle: saveArticle, setcontent: setcontent, setOK: setOK, alrtOK: alrtOK});             
+                }}>
+                  <Icon
+                    name="plus"
+                    size={35}
+                    type="font-awesome"
+                    iconStyle={{
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 2,
+                      },
+                      shadowOpacity: 0.25,
+                      shadowRadius: 4,
+                      elevation: 5,
+                    }}
+                    color={ColorTheme}
+                    style={styles.IconAdd}></Icon>
+          </TouchableOpacity>
+        </View>
+     
     </SafeAreaView>
   );
 };
@@ -338,71 +353,68 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#e5e5e5',
+    backgroundColor: 'white',
     height: height,
   },
   InfoBtnContainer: {
-    width: width - 40,
-    marginLeft: 20,
-    marginRight: 20,
-    height: 70,
+    width: width,
+    backgroundColor:"white",
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.1,
+    borderColor: "#e8e8e8",
+    height: 80,
     borderRadius: 3,
     flexDirection: 'row',
-    marginBottom: 0,
-    marginTop: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
-
-
+    marginTop:-0.5
   },
-  InfoBtnInterface: {
-    width: width - 40,
-    height: 70,
-    borderRadius: 3,
-    flexDirection: 'row',
-    backgroundColor: "white",
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
 
-  },
   InfoBtnTexts: {
     marginLeft: 20,
     marginTop: 10,
-    color: '#ffffff',
+    color: ColorTheme,
     fontSize: 16,
     fontWeight: 'bold',
   },
   IconContainer: {
     height: 70,
     width: 70,
-    backgroundColor: '#ffffff',
-    borderRadius: 3,
+    borderRadius:15,
+    display:'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -10,
-    marginLeft: -5,
+    borderColor: '#cfcfcf',
+    borderWidth: 1,
+    marginTop: 5,
+    marginLeft:10,
   },
-
+  bottomcontainer:{
+    height:100,
+    display:'flex',
+    alignItems:"center",
+    justifyContent: "center",
+    backgroundColor: "white",
+  
+  },
+  IconAdd:{
+    marginTop: 13,
+  },
   AddBtn: {
-    justifyContent: 'center',
-    height: 37,
-    width: 40,
-    borderRadius: 30,
+    position: 'relative',
+    marginTop:-80,
+    height: 60,
+    width: 60,
+    borderRadius: 40,
     zIndex: 1,
-    marginTop: -40,
-    marginLeft: width - 50,
+    backgroundColor:"white",
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+   
   },
   QrCode: {
     position: 'absolute',
@@ -475,7 +487,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     height: 40,
     width: 100,
-    backgroundColor: ColorTheme,
+    backgroundColor: ColorAlert,
     borderRadius: 10,
   },
   BtnCancel:{
