@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 
 import Home from './src/components/Home';
 import Add from './src/components/Add';
-
+import Scanner from './src/components/Scanner'
 
 
 const App = () => {
@@ -23,6 +23,7 @@ const App = () => {
           name="Home"
           component={Home}></Stack.Screen>
         <Stack.Screen name="Add" component={Add}></Stack.Screen>
+        <Stack.Screen name="Scanner" component={Scanner}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

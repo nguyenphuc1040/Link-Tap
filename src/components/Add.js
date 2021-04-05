@@ -152,7 +152,7 @@ const Add = () => {
     <SafeAreaView>
       <View
         style={{
-          height: 65  ,
+          height: 72  ,
           backgroundColor: "white",
           shadowColor: '#000',
           shadowOffset: {
@@ -164,14 +164,13 @@ const Add = () => {
           elevation: 5,
         }}
       >
-      <ImageBackground 
-          source = {require('../img/btnbackground.png')}
+      <View
           style = {styles.header}
       >
-          <Text style={{textAlign: 'right', fontSize: 20, color:"white", fontWeight:"bold",marginTop:27, marginRight:25,}}>
+          <Text style={{textAlign: 'right', fontSize: 20, color: ColorTheme, fontWeight:"bold",marginTop:27, marginRight:25,}}>
               ADD KEY NAME
           </Text>
-      </ImageBackground>
+      </View>
       </View>
       
 

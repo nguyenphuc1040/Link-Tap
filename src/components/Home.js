@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   View,
@@ -22,17 +22,17 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import 'react-native-gesture-handler';
-import {StackActions} from '@react-navigation/routers';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import { StackActions } from '@react-navigation/routers';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Icon} from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import QrCode from 'react-native-qrcode-svg';
 import QRCode from 'react-native-qrcode-svg';
-import {color, set} from 'react-native-reanimated';
+import { color, set } from 'react-native-reanimated';
 
 
-const {width, height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 const ColorTheme = 'rgb(184, 55, 55)'
 const ColorAlert = 'rgb(184, 55, 55)'
 const InfoBtn = ({
@@ -70,29 +70,29 @@ const InfoBtn = ({
       setDelete(!alrtDelete);
     }}>
     <View
-      style={styles.InfoBtnContainer}>
+      style={index%2===1?styles.InfoBtnContainer:styles.InfoBtnContainer1}>
 
-        <View
-          style={styles.IconContainer}>
-          <Icon
-            name={name_icon}
-            size={size}
-            type={type}
-            color={color_icon}></Icon>
-        </View>
-        <Text style={styles.InfoBtnTexts}>{name}</Text>
+      <View
+        style={styles.IconContainer}>
+        <Icon
+          name={name_icon}
+          size={25}
+          type={type}
+          color={color_icon}></Icon>
+      </View>
+      <Text style={styles.InfoBtnTexts}>{name}</Text>
 
-      
+
     </View>
   </TouchableNativeFeedback>
 );
 
-const deleteItem = async (key,alrtOK,setOK, index) => {
+const deleteItem = async (key, alrtOK, setOK, index) => {
   try {
     await AsyncStorage.removeItem(key);
   } catch (e) {
     setcontent("Please Try Again");
-    setOK(!alrtOK);   
+    setOK(!alrtOK);
   }
 };
 const Home = () => {
@@ -115,8 +115,8 @@ const Home = () => {
         setOK(!alrtOK);
       }
     } catch (e) {
-        setcontent("Please Try Again");
-        setOK(!alrtOK);   
+      setcontent("Please Try Again");
+      setOK(!alrtOK);
     }
   };
   const getAllData = () => {
@@ -127,44 +127,44 @@ const Home = () => {
         })
         .catch(e => {
           setcontent("Please Try Again");
-          setOK(!alrtOK);   
+          setOK(!alrtOK);
         });
     });
   };
   const [Qrcodevs, setQRvisible] = useState(false);
   const [alrtDelete, setDelete] = useState(false);
   const [alrtOK, setOK] = useState(false);
-  const [alrtcontent,setcontent] = useState('');
-  const [nameDelete,setnameDelete] = useState('');
-  const [indexnameDelete,setindexnamedelete] = useState();
+  const [alrtcontent, setcontent] = useState('');
+  const [nameDelete, setnameDelete] = useState('');
+  const [indexnameDelete, setindexnamedelete] = useState();
 
   useEffect(() => {
     getAllData();
- 
+
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle='light-content' translucent={true}></StatusBar>
-   
+      <StatusBar backgroundColor="transparent" barStyle='dark-content' translucent={true}></StatusBar>
+
       <Modal
         animationType="fade"
         transparent={true}
         visible={Qrcodevs}
         onRequestClose={() => {
-              setQRvisible(!Qrcodevs)
+          setQRvisible(!Qrcodevs)
         }}>
         <View style={styles.centeredView}>
           <View style={styles.Coating}></View>
           <View style={styles.modalView}>
-            <QRCode 
-              value={link} 
-              color= {ColorTheme}
+            <QRCode
+              value={link}
+              color={ColorTheme}
               size={width / 2.5}
-              translucent = {true}
-         
+              translucent={true}
+
             ></QRCode>
           </View>
-          <View style ={{marginTop:20}}></View>
+          <View style={{ marginTop: 20 }}></View>
           <TouchableOpacity style={styles.shawdowst} onPress={() => setQRvisible(!Qrcodevs)}>
             <Icon
               name="times-circle"
@@ -176,76 +176,76 @@ const Home = () => {
       </Modal>
 
       <Modal
-        animationType = "fade"
-        transparent = {true}
-        visible = {alrtOK}
-        onRequestClose={()=>{
-          
+        animationType="fade"
+        transparent={true}
+        visible={alrtOK}
+        onRequestClose={() => {
+
         }}
       >
         <View style={styles.centeredView}>
-             <View style={styles.Coating}></View>
-             <View style={styles.modalViewAlert}>
-                <Text style={{fontSize:24, fontWeight:'bold',color:"#5e5e5e"}}> Notification </Text>
-                <Text style = {{fontSize:17, fontWeight:'normal',color:"#5e5e5e",marginTop:10}}> {alrtcontent} </Text>
-                <TouchableOpacity 
-                  activeOpacity ={.7}
-                  onPress={() => setOK(!alrtOK)}>
-                  <View style ={styles.BtnOK}>
-                      <Text style = {styles.TextBtnOk}>
-                        OK
+          <View style={styles.Coating}></View>
+          <View style={styles.modalViewAlert}>
+            <Text style={{ fontSize: 24, fontWeight: 'bold', color: "#5e5e5e" }}> Notification </Text>
+            <Text style={{ fontSize: 17, fontWeight: 'normal', color: "#5e5e5e", marginTop: 10 }}> {alrtcontent} </Text>
+            <TouchableOpacity
+              activeOpacity={.7}
+              onPress={() => setOK(!alrtOK)}>
+              <View style={styles.BtnOK}>
+                <Text style={styles.TextBtnOk}>
+                  OK
                       </Text>
-                  </View>
-                </TouchableOpacity>
-             </View>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
       <Modal
-        animationType = "fade"
-        transparent = {true}
-        visible = {alrtDelete}
-        onRequestClose={()=>{
-          
+        animationType="fade"
+        transparent={true}
+        visible={alrtDelete}
+        onRequestClose={() => {
+
         }}
       >
         <View style={styles.centeredView}>
-             <View style={styles.Coating}></View>
-             <View style={styles.modalViewAlert}>
-                <Text style={{fontSize:24, fontWeight:'bold',color:"#5e5e5e"}}> Notification </Text>
-                <Text style = {{fontSize:17, fontWeight:'normal',color:"#5e5e5e",marginTop:10}}> {alrtcontent} </Text>
-                <View style = {{flexDirection:"row"}}>
-                    <TouchableOpacity 
-                      activeOpacity ={.7}
-                      onPress={() => setDelete(!alrtDelete)}>
-                      <View style ={styles.BtnCancel}>
-                          <Text style = {styles.TextBtnOk}>
-                            Cancel
+          <View style={styles.Coating}></View>
+          <View style={styles.modalViewAlert}>
+            <Text style={{ fontSize: 24, fontWeight: 'bold', color: "#5e5e5e" }}> Notification </Text>
+            <Text style={{ fontSize: 17, fontWeight: 'normal', color: "#5e5e5e", marginTop: 10 }}> {alrtcontent} </Text>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                activeOpacity={.7}
+                onPress={() => setDelete(!alrtDelete)}>
+                <View style={styles.BtnCancel}>
+                  <Text style={styles.TextBtnOk}>
+                    Cancel
                           </Text>
-                      </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity 
-                      activeOpacity ={.7}
-                      onPress={() =>  {
-                        deleteItem(nameDelete,alrtOK,setOK); 
-                        setDelete(!alrtDelete);
-                        setarr([...arr.slice(0, indexnameDelete), ...arr.slice(indexnameDelete + 1)]);
-                      }}>
-                      <View style ={styles.BtnOK}>
-                          <Text style = {styles.TextBtnOk}>
-                            OK
-                          </Text>
-                      </View>
-                    </TouchableOpacity>
-                    
                 </View>
-                
-             </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                activeOpacity={.7}
+                onPress={() => {
+                  deleteItem(nameDelete, alrtOK, setOK);
+                  setDelete(!alrtDelete);
+                  setarr([...arr.slice(0, indexnameDelete), ...arr.slice(indexnameDelete + 1)]);
+                }}>
+                <View style={styles.BtnOK}>
+                  <Text style={styles.TextBtnOk}>
+                    OK
+                          </Text>
+                </View>
+              </TouchableOpacity>
+
+            </View>
+
+          </View>
         </View>
       </Modal>
       <View
         style={{
-          height: 65  ,
+          height: 75,
           backgroundColor: "white",
           shadowColor: '#000',
           shadowOffset: {
@@ -256,24 +256,10 @@ const Home = () => {
           shadowRadius: 3.84,
           elevation: 5,
         }}>
-        <ImageBackground source = {require('../img/btnbackground.png')}
-          imageStyle = {{}}
-          style={{
-   
-            height: 75,
-            
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
-          }}>
+        <View >
           <Text
             style={{
-              color: '#e5e5e5',
+              color: ColorTheme,
               fontSize: 20,
               fontWeight: 'bold',
               textAlign: 'right',
@@ -284,67 +270,66 @@ const Home = () => {
             LINK TAP
           </Text>
 
-        </ImageBackground>
+        </View>
       </View>
-          
-      <ScrollView style={{marginTop: 20}}>
-        <View style={{height:1}}></View>
+
+      <ScrollView>
         {arr.map((item, index) => (
           <InfoBtn
             name={item[0]}
             name_icon={item[1].split('|')[1]}
             color_icon={item[1].split('|')[2]}
             link={item[1].split('|')[0]}
-            type = {item[1].split('|')[3]}
-            size = {40}
+            type={item[1].split('|')[3]}
+            size={40}
             arr={arr}
             index={index}
             setarr={setarr}
             setQRvisible={setQRvisible}
             setlink={setlink}
-            alrtOK = {alrtOK}
-            setOK = {setOK}
-            alrtDelete = {alrtDelete}
-            setDelete = {setDelete}
-            setcontent = {setcontent}
-            setnameDelete = {setnameDelete}
-            setindexnamedelete = {setindexnamedelete}
+            alrtOK={alrtOK}
+            setOK={setOK}
+            alrtDelete={alrtDelete}
+            setDelete={setDelete}
+            setcontent={setcontent}
+            setnameDelete={setnameDelete}
+            setindexnamedelete={setindexnamedelete}
             key={index}></InfoBtn>
         ))}
-        { arr.length===0 &&
-          <Text style={{fontSize:20, fontWeight: 'bold', color:'#7a7a7a',textAlign:'center',marginTop:height/2.7}}>
-          OPPS ! NO THING HERE
+        {arr.length === 0 &&
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#7a7a7a', textAlign: 'center', marginTop: height / 2.7 }}>
+            OPPS ! NO THING HERE
         </Text>}
-        <View style={{height: 10}}></View>
-        
-      </ScrollView>
+        <View style={{ height: 10 }}></View>
 
-        <View style={styles.bottomcontainer}>
+      </ScrollView>
+      <View style={styles.bottomcontainer}>
           <TouchableOpacity
-                style={styles.AddBtn}
-                activeOpacity = {0.6}
-                onPress={() => {
-                  navigation.navigate('Add', {saveArticle: saveArticle, setcontent: setcontent, setOK: setOK, alrtOK: alrtOK});             
-                }}>
-                  <Icon
-                    name="plus"
-                    size={35}
-                    type="font-awesome"
-                    iconStyle={{
-                      shadowColor: '#000',
-                      shadowOffset: {
-                        width: 0,
-                        height: 2,
-                      },
-                      shadowOpacity: 0.25,
-                      shadowRadius: 4,
-                      elevation: 5,
-                    }}
-                    color={ColorTheme}
-                    style={styles.IconAdd}></Icon>
+            style={styles.AddBtn}
+            activeOpacity={0.8}
+            onPress={() => {
+              navigation.navigate('Add', { saveArticle: saveArticle, setcontent: setcontent, setOK: setOK, alrtOK: alrtOK });
+            }}>
+            <Icon
+              name="plus"
+              size={35}
+              type="font-awesome"
+              iconStyle={{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 4,
+                elevation: 5,
+              }}
+              color={ColorTheme}
+              style={styles.IconAdd}></Icon>
           </TouchableOpacity>
-        </View>
-     
+      </View>
+
+
     </SafeAreaView>
   );
 };
@@ -358,16 +343,26 @@ const styles = StyleSheet.create({
   },
   InfoBtnContainer: {
     width: width,
-    backgroundColor:"white",
+    backgroundColor: "white",
     borderTopWidth: 0.5,
     borderBottomWidth: 0.1,
     borderColor: "#e8e8e8",
-    height: 80,
+    height: 65,
     borderRadius: 3,
     flexDirection: 'row',
-    marginTop:-0.5
+    marginTop: -0.5
   },
-
+  InfoBtnContainer1: {
+    width: width,
+    backgroundColor: "#f2f2f2",
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.1,
+    borderColor: "#e8e8e8",
+    height: 65,
+    borderRadius: 3,
+    flexDirection: 'row',
+    marginTop: -0.5
+  },
   InfoBtnTexts: {
     marginLeft: 20,
     marginTop: 10,
@@ -376,36 +371,36 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   IconContainer: {
-    height: 70,
-    width: 70,
-    borderRadius:15,
-    display:'flex',
+    height: 45,
+    width: 45,
+    borderRadius: 15,
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#cfcfcf',
     borderWidth: 1,
-    marginTop: 5,
-    marginLeft:10,
+    marginTop: 10,
+    marginLeft: 15,
+    backgroundColor:"white",
   },
-  bottomcontainer:{
-    height:100,
-    display:'flex',
-    alignItems:"center",
+  bottomcontainer: {
+    height: 110,
+    display: 'flex',
+    alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
-  
+    zIndex: 1,
   },
-  IconAdd:{
+  IconAdd: {
     marginTop: 13,
   },
   AddBtn: {
     position: 'relative',
-    marginTop:-80,
+    marginTop: -70,
     height: 60,
     width: 60,
     borderRadius: 40,
     zIndex: 1,
-    backgroundColor:"white",
+    backgroundColor: "white",
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -414,7 +409,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-   
+
   },
   QrCode: {
     position: 'absolute',
@@ -459,7 +454,7 @@ const styles = StyleSheet.create({
 
   },
   modalViewAlert: {
-    width:width/1.3,
+    width: width / 1.3,
     backgroundColor: 'white',
     borderRadius: 10,
     paddingHorizontal: 10,
@@ -475,38 +470,38 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  Coating:{
+  Coating: {
     height: height,
     width: width,
     backgroundColor: '#000000',
     opacity: 0.7,
     position: 'absolute',
   },
-  BtnOK:{
-    marginTop:20,
-    justifyContent:'center',
+  BtnOK: {
+    marginTop: 20,
+    justifyContent: 'center',
     height: 40,
     width: 100,
     backgroundColor: ColorAlert,
     borderRadius: 10,
   },
-  BtnCancel:{
-    marginTop:20,
-    justifyContent:'center',
+  BtnCancel: {
+    marginTop: 20,
+    justifyContent: 'center',
     height: 40,
     width: 100,
     backgroundColor: "#7d7d7d",
     borderRadius: 10,
     marginRight: 30,
   },
-  TextBtnOk:{
+  TextBtnOk: {
     color: "white",
-    fontSize:18, 
+    fontSize: 18,
     fontWeight: 'bold',
-    textAlign:"center",
-    
+    textAlign: "center",
+
   },
-  shawdowst:{
+  shawdowst: {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
